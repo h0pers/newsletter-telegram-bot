@@ -17,7 +17,7 @@ services:
       - db:/var/lib/postgresql/data
     restart: on-failure
     ports:
-      - "5432:5432"
+      - "6432:6432"
   task_db:
     image: postgres:15-alpine
     env_file:
@@ -26,7 +26,7 @@ services:
       - task_db:/var/lib/postgresql/data
     restart: on-failure
     ports:
-      - "5433:5433"
+      - "6433:6433"
   schedule:
     build: ./schedule_tasks/.
     command: bash -c "python -m run && celery -A app.celery:app worker -B -l info "
