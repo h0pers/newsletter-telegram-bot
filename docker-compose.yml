@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:alpine
+    command:
+      - redis-server
+    env_file:
+      - bot/.env
+    restart: on-failure
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:15-alpine
+    env_file:
+      - bot/.env
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5432:5432"
+  task_db:
+    image: postgres:15-alpine
+    env_file:
+      - ./schedule_tasks/.env
+    volumes:
+      - task_db:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5433:5433"
+  schedule:
+    build: ./schedule_tasks/.
+    command: bash -c "python -m run && celery -A app.celery:app worker -B -l info "
+    env_file:
+      - ./schedule_tasks/.env
+    restart: on-failure
+    depends_on:
+      - task_db
+  bot:
+    build: ./bot/.
+    command: sh -c "python -m run"
+    env_file:
+      - ./bot/.env
+    restart: always
+    depends_on:
+      - schedule
+      - db
+      - task_db
+      - redis
+
+volumes:
+  db:
+  task_db:
