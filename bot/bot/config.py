@@ -51,4 +51,7 @@ class MessageText:
     SET_MESSAGE_TIME_ERROR = 'Не правильный формат времени. Попробуйте ещё раз.'
     DONE = 'Выполнено'
     NEWSLETTER_PUBLISHED = 'Сообщение опубликовано.'
+    NEW_CATEGORY = 'Введите название категории.'
+    AVAILABLE_CATEGORIES = 'Доступные категории:'
+    NEW_CATEGORY_SUCCESSFUL = 'Категория <b>{category}</b> успешно добавлена!'
 

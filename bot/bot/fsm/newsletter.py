@@ -8,4 +8,5 @@ class Newsletter(StatesGroup):
     set_newsletter_time = State()
     set_newsletter_chat = State()
     set_newsletter_message = State()
+    set_category = State()
 

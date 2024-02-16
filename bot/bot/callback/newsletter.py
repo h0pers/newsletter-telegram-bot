@@ -10,3 +10,4 @@ class NewsletterAction(CallbackData, prefix="newsletter"):
     set_newsletter_message: int = 0
     publish_newsletter: int = 0
     delete_newsletter: int = 0
+    set_category: int = 0
