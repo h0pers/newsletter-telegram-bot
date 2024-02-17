@@ -1,32 +1,37 @@
+import logging
+
 import telebot
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from datetime import datetime
 
 from app.celery import app, logger
 from app.config import BOT_TOKEN
 from app.database.main import SessionLocal
-from app.database.models.tasks import BotMessageTasks
 from app.database.models.channels import Channels
 from app.config import ADMINS_ID
 from app.config import MessageText
 from app.config import TIME_ZONE
+from app.database.models.tasks import BotPeriodicMessageTasks
 
 
 @app.task(bind=True)
-def check_forward_schedule(self):
+def check_periodic_time_message(self):
     bot = telebot.TeleBot(BOT_TOKEN, parse_mode='HTML')
     with SessionLocal.begin() as session:
-        tasks = session.scalars(select(BotMessageTasks)).all()
+        tasks = session.scalars(select(BotPeriodicMessageTasks)).all()
 
     for task in tasks:
         try:
-            time_now = datetime.now(tz=TIME_ZONE).time()
+            time_now = datetime.now(tz=TIME_ZONE).now()
             time_now = time_now.replace(second=0, microsecond=0)
-            task_publish_time = task.publish_time.replace(second=0, microsecond=0)
+            last_publish_time = task.last_publish_time.replace(second=0, microsecond=0)
 
-            if task_publish_time == time_now:
+            if time_now == last_publish_time + task.time_interval:
                 with SessionLocal.begin() as session:
+                    statement = f'UPDATE bot_periodic_message_tasks SET last_publish_time=NOW() WHERE id={task.id};'
+                    logging.info(statement)
+                    session.execute(statement=text(statement))
                     reply_chat = session.scalars(select(Channels).filter_by(id=task.reply_chat_id)).one()
 
                 bot.forward_message(chat_id=reply_chat.chat_id, message_id=task.message_id,

@@ -12,8 +12,8 @@ class NewNewsletterInlineButtonText(InlineButtonText):
     SEND_NEWSLETTER = 'Отправить сообщение 🛫'
 
 
-set_newsletter_time = InlineKeyboardButton(text=NewNewsletterInlineButtonText.SET_TIME,
-                                           callback_data=NewsletterAction(set_newsletter_time=1).pack())
+control_newsletter_time = InlineKeyboardButton(text=NewNewsletterInlineButtonText.SET_TIME,
+                                               callback_data=NewsletterAction(control_newsletter_time=1).pack())
 set_newsletter_chat = InlineKeyboardButton(text=NewNewsletterInlineButtonText.SET_CHAT,
                                            callback_data=NewsletterAction(set_newsletter_chat=1).pack())
 set_newsletter_message = InlineKeyboardButton(text=NewNewsletterInlineButtonText.SET_MESSAGE,
@@ -22,6 +22,6 @@ publish_newsletter_message = InlineKeyboardButton(text=NewNewsletterInlineButton
                                                   callback_data=NewsletterAction(publish_newsletter=1).pack())
 
 new_newsletter_markup = Inline([[set_newsletter_chat, set_newsletter_message],
-                                [set_newsletter_time],
+                                [control_newsletter_time],
                                 [publish_newsletter_message],
                                 [Inline.back_button]])

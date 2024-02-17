@@ -16,6 +16,12 @@ async def set_message(message: Message, state: FSMContext):
     try:
         datetime.strptime(message.text, '%H:%M')
         await state.update_data({'publish_time': message.text})
+        data = await state.get_data()
+        try:
+            data.pop('period_time_data')
+        except:
+            pass
+        await state.set_data(data)
         await message.answer(text=MessageText.SET_MESSAGE_SUCCESSFULUl)
         await message.answer(
             text=MessageText.ADMIN_PANEL.format(username=message.from_user.username or message.from_user.first_name),

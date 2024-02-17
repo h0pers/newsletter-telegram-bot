@@ -35,8 +35,12 @@ class MessageText:
 '''
     NEWSLETTER_DETAILS = '''
 <b>Название чата:</b> @{username}
-<b>Дата добавление:</b> {creation_date}
 <b>Время публикации:</b> {publish_time}
+    '''
+    PERIODIC_NEWSLETTER_DETAILS = '''
+<b>Название чата:</b> @{username}
+<b>Интервал публикации:</b> {publish_time}
+<b>Сообщение:</b>
     '''
     AVAILABLE_CHANNELS = 'Доступные каналы:'
     NO_AVAILABLE_CHANNELS = 'Нету доступных каналов'
@@ -50,5 +54,7 @@ class MessageText:
     SET_MESSAGE_SUCCESSFULUl = 'Время установлено.'
     SET_MESSAGE_TIME_ERROR = 'Не правильный формат времени. Попробуйте ещё раз.'
     DONE = 'Выполнено'
+    NO_DATA_ENOUGH = 'Не достаточно данных'
     NEWSLETTER_PUBLISHED = 'Сообщение опубликовано.'
+    PERIODIC_TIME_TASK = 'Установите интервал отправки сообщение в таком формате. <b>Дни:часы:минуты</b>'
 
