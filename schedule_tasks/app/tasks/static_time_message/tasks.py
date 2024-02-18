@@ -53,7 +53,7 @@ def check_static_time_message(self):
                 'from_chat_id': task[4]
             }
             time_now = datetime.datetime.now(tz=TIME_ZONE)
-            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(0, 5), microseconds=0)
+            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(5, 20), microseconds=0)
             send_static_time_message.apply_async(args=[task_kwargs], eta=time_now + time_delay)
 
 
