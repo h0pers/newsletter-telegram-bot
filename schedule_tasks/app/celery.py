@@ -11,8 +11,12 @@ app.conf.timezone = TIME_ZONE_STR
 logger = get_task_logger(__name__)
 
 app.conf.beat_schedule = {
-    'Check forward schedule': {
-        'task': 'app.tasks.forward_message.tasks.check_forward_schedule',
+    'Check static time message': {
+        'task': 'app.tasks.static_time_message.tasks.check_static_time_message',
+        'schedule': crontab(),
+    },
+    'Check periodic time message': {
+        'task': 'app.tasks.periodic_time_message.tasks.check_periodic_time_message',
         'schedule': crontab(),
     },
 }
@@ -20,4 +24,5 @@ app.conf.beat_schedule = {
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(crontab(), check_forward_schedule.s(), name='Check forward schedule')
+    sender.add_periodic_task(crontab(), check_static_time_message.s(), name='Check static time message')
+    sender.add_periodic_task(crontab(), check_periodic_time_message.s(), name='Check periodic time message')

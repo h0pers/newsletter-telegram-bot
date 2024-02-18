@@ -29,29 +29,46 @@ class MessageText:
     ADD_CHANNEL_SUCCESSFUL = 'Чат успешно добавлен.'
     CHANNEL_EXIST = 'Такой чат уже есть'
     WOULD_DELETE_CHANNEL = 'Выберете какой канал вы хотите удалить:'
+    WOULD_DELETE_CATEGORIES = 'Выберете какую категорию вы хотите удалить:'
     CHANNEL_DETAILS = '''
 <b>Название чата:</b> @{username}
 <b>Дата добавление:</b> {creation_date}
 '''
     NEWSLETTER_DETAILS = '''
 <b>Название чата:</b> @{username}
-<b>Дата добавление:</b> {creation_date}
 <b>Время публикации:</b> {publish_time}
+    '''
+    PERIODIC_NEWSLETTER_DETAILS = '''
+<b>Название чата:</b> @{username}
+<b>Интервал публикации:</b> {publish_time}
+<b>Сообщение:</b>
     '''
     AVAILABLE_CHANNELS = 'Доступные каналы:'
     NO_AVAILABLE_CHANNELS = 'Нету доступных каналов'
     CHANNEL_NOT_FOUND = 'Чат не найден, попробуйте ещё раз'
     CHANNEL_PICKED = 'Чат успешно выбран.'
     CANCELED = 'Отменено'
-    WOULD_CANCEL = 'Желаете отменить действие?'
+    WOULD_CANCEL = 'Желаете закончить редактирование?'
     ERROR_MESSAGE = 'Произошла ошибка, убедитесь все ли правильно сделано. Попробуйте ещё раз.'
     MESSAGE_ADDED = 'Сообщение успешно добавлено.'
     SET_MESSAGE_TIME = 'Напишите время отправки сообщение. Формат: 13:15'
     SET_MESSAGE_SUCCESSFULUl = 'Время установлено.'
     SET_MESSAGE_TIME_ERROR = 'Не правильный формат времени. Попробуйте ещё раз.'
     DONE = 'Выполнено'
+    NO_DATA_ENOUGH = 'Не достаточно данных'
     NEWSLETTER_PUBLISHED = 'Сообщение опубликовано.'
+    PERIODIC_TIME_TASK = 'Установите интервал отправки сообщение в таком формате. <b>Дни:часы:минуты</b>'
     NEW_CATEGORY = 'Введите название категории.'
     AVAILABLE_CATEGORIES = 'Доступные категории:'
+    NO_AVAILABLE_CATEGORIES = 'Нету категорий'
+    NO_AVAILABLE_TASKS = 'Нету задач'
     NEW_CATEGORY_SUCCESSFUL = 'Категория <b>{category}</b> успешно добавлена!'
+    CATEGORY_DETAILS = '''
+<b>Детали категории</b>
+<b>Название категории:</b> {category}
+<b>Количество точных рассылок:</b> {static_tasks}
+<b>Количество периодических рассылок:</b> {periodic_tasks}
+    '''
+    CATEGORY_DELETED = 'Категория {category} удалена.'
+    CHOSEN_CATEGORY = 'Категория <b>{category}</b> установлена.'
 

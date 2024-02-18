@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import BigInteger, ForeignKey, Integer, Time, String, Boolean
+from sqlalchemy import BigInteger, ForeignKey, Integer, Time, Interval, func, DateTime, String, Boolean, Date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .channels import Channels
@@ -12,7 +12,8 @@ class MessageCategory(Base):
     __tablename__ = 'bot_message_categories'
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(40), unique=True)
-    tasks = relationship('BotMessageTasks', back_populates='category', cascade='all, delete')
+    static_tasks = relationship('BotMessageTasks', back_populates='category', cascade='all, delete')
+    periodic_tasks = relationship('BotPeriodicMessageTasks', back_populates='category', cascade='all, delete')
 
 
 class BotMessageTasks(Base):
@@ -23,7 +24,21 @@ class BotMessageTasks(Base):
     publish_time: Mapped[datetime.time] = mapped_column(Time())
     from_chat_id = mapped_column(BigInteger())
     reply_chat_id = mapped_column(ForeignKey("channels.id"))
-    reply_chat = relationship('Channels', back_populates="tasks", cascade="save-update")
+    reply_chat = relationship('Channels', back_populates="static_tasks", cascade="save-update")
     category_id = mapped_column(ForeignKey('bot_message_categories.id'))
-    category = relationship('MessageCategory', back_populates='tasks', cascade="save-update")
-    was_published_last_time: Mapped[bool] = mapped_column(Boolean(), default=False)
+    category = relationship('MessageCategory', back_populates='static_tasks', cascade="save-update")
+
+
+class BotPeriodicMessageTasks(Base):
+    __tablename__ = 'bot_periodic_message_tasks'
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    message_id: Mapped[int] = mapped_column(Integer())
+    message_thread_id: Mapped[int] = mapped_column(Integer(), nullable=True)
+    last_publish_time: Mapped[datetime.datetime] = mapped_column(DateTime(), server_default=func.now(),
+                                                                 server_onupdate=func.now())
+    time_interval: Mapped[datetime.timedelta] = mapped_column(Interval())
+    from_chat_id = mapped_column(BigInteger())
+    reply_chat_id = mapped_column(ForeignKey("channels.id"))
+    reply_chat = relationship('Channels', back_populates="periodic_tasks", cascade="save-update")
+    category_id = mapped_column(ForeignKey('bot_message_categories.id'))
+    category = relationship('MessageCategory', back_populates='periodic_tasks', cascade="save-update")

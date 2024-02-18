@@ -19,7 +19,8 @@ ADMINS_ID = [int(admin.strip()) for admin in os.getenv('TELEGRAM_ADMIN_ID').spli
 TIME_ZONE = pytz.timezone(TIME_ZONE_STR)
 
 TASK_LIST = [
-    'app.tasks.forward_message'
+    'app.tasks.static_time_message',
+    'app.tasks.periodic_time_message',
 ]
 
 DB_URL = conn_url = f'postgresql+psycopg://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PASSWORD")}@{os.getenv("POSTGRES_HOST")}/{os.getenv("POSTGRES_DB")}'

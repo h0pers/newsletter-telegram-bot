@@ -42,6 +42,8 @@ async def delete_picked_channel(query: CallbackQuery, callback_data: ChannelsAct
     async with tasks_db_session_local.begin() as session:
         statement = f'DELETE FROM bot_message_tasks WHERE reply_chat_id={callback_data.primary_chat_id};'
         await session.execute(text(statement))
+        statement = f'DELETE FROM bot_periodic_message_tasks WHERE reply_chat_id={callback_data.primary_chat_id};'
+        await session.execute(text(statement))
         statement = f'DELETE FROM channels WHERE id={callback_data.primary_chat_id};'
         await session.execute(text(statement))
 
