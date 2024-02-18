@@ -3,7 +3,6 @@ import os
 import pytz
 from dotenv import load_dotenv
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
@@ -24,6 +23,10 @@ TASK_LIST = [
 ]
 
 DB_URL = conn_url = f'postgresql+psycopg://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PASSWORD")}@{os.getenv("POSTGRES_HOST")}/{os.getenv("POSTGRES_DB")}'
+
+MIN_SEND_MESSAGE_DELAY = int(os.getenv('MIN_SEND_MESSAGE_DELAY'))
+
+MAX_SEND_MESSAGE_DELAY = int(os.getenv('MAX_SEND_MESSAGE_DELAY'))
 
 
 class MessageText:
