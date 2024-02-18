@@ -29,4 +29,4 @@ class BotPeriodicMessageTasks(Base):
     time_interval: Mapped[datetime.timedelta] = mapped_column(Interval())
     from_chat_id = mapped_column(BigInteger())
     reply_chat_id = mapped_column(ForeignKey("channels.id"))
-    reply_chat = relationship('Channels', back_populates="periodic_tasks", cascade="save-update")
+    reply_chat = relationship('Channels', collection_class=set, back_populates="periodic_tasks", cascade="save-update")
