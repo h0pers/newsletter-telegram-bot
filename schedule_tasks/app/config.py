@@ -20,11 +20,12 @@ TIME_ZONE = pytz.timezone(TIME_ZONE_STR)
 
 TASK_LIST = [
     'app.tasks.static_time_message',
-    'app.tasks.periodic_time_message'
+    'app.tasks.periodic_time_message',
 ]
 
 DB_URL = conn_url = f'postgresql+psycopg://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PASSWORD")}@{os.getenv("POSTGRES_HOST")}/{os.getenv("POSTGRES_DB")}'
 
+PUBLISH_PER_REQUEST = int(os.getenv('PUBLISH_PER_REQUEST'))
 
 class MessageText:
     SEND_MESSAGE_ERROR = '''

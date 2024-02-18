@@ -17,6 +17,8 @@ publish_callback_router = Router()
 async def publish_newsletter(query: CallbackQuery, state: FSMContext):
     try:
         data = await state.get_data()
+        category_id = data['category_id']
+
         if data['message_thread_id']:
             data['message_thread_id'] = f"'{data['message_thread_id']}'"
 
@@ -27,10 +29,10 @@ async def publish_newsletter(query: CallbackQuery, state: FSMContext):
                 reply_chat = await session.execute(statement=text(statement))
                 reply_chat = reply_chat.scalar()
                 statement = f"""
-        INSERT INTO bot_periodic_message_tasks (message_id, from_chat_id, time_interval, message_thread_id, reply_chat_id) 
+        INSERT INTO bot_periodic_message_tasks (message_id, from_chat_id, time_interval, message_thread_id, reply_chat_id, category_id) 
         VALUES ('{data['message_id']}', '{data['from_chat_id']}', 
         '{timedelta(days=time_data[0], hours=time_data[1], minutes=time_data[2])}', {data['message_thread_id'] or 'NULL'}, 
-        '{reply_chat}');
+        '{reply_chat}', '{category_id}');
         """
                 await session.execute(statement=text(statement))
 
@@ -40,9 +42,9 @@ async def publish_newsletter(query: CallbackQuery, state: FSMContext):
                 reply_chat = await session.execute(statement=text(statement))
                 reply_chat = reply_chat.scalar()
                 statement = f"""
-            INSERT INTO bot_message_tasks (message_id, from_chat_id, publish_time, message_thread_id, reply_chat_id) 
-            VALUES ('{data['message_id']}', '{data['from_chat_id']}', 
-            '{datetime.strptime(data['publish_time'], '%H:%M')}',{data['message_thread_id'] or 'NULL'}, '{reply_chat}');
+            INSERT INTO bot_message_tasks (message_id, from_chat_id, publish_time, message_thread_id, reply_chat_id, category_id) 
+            VALUES ('{data['message_id']}', '{data['from_chat_id']}', '{datetime.strptime(data['publish_time'], '%H:%M')}',
+            {data['message_thread_id'] or 'NULL'}, '{reply_chat}', '{category_id}');
             """
                 await session.execute(statement=text(statement))
         await state.set_state(Newsletter.new_newsletter)

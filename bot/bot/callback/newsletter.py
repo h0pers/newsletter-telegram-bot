@@ -10,6 +10,7 @@ class NewsletterAction(CallbackData, prefix="newsletter"):
     set_newsletter_periodic_time: int = 0
     set_newsletter_time: int = 0
     set_newsletter_chat: int = 0
+    set_newsletter_category: int = 0
     set_newsletter_message: int = 0
     publish_newsletter: int = 0
     delete_newsletter: int = 0
