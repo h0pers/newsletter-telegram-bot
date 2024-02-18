@@ -36,6 +36,7 @@ class MessageText:
     NEWSLETTER_DETAILS = '''
 <b>Название чата:</b> @{username}
 <b>Время публикации:</b> {publish_time}
+<b>Сообщение:</b>
     '''
     PERIODIC_NEWSLETTER_DETAILS = '''
 <b>Название чата:</b> @{username}
