@@ -1,6 +1,4 @@
-import logging
 import random
-import time
 import telebot
 import datetime
 
@@ -14,6 +12,7 @@ from app.config import ADMINS_ID
 from app.config import MessageText
 from app.config import TIME_ZONE
 from app.database.models.tasks import BotPeriodicMessageTasks
+from app.config import MIN_SEND_MESSAGE_DELAY, MAX_SEND_MESSAGE_DELAY
 
 
 @app.task()
@@ -51,5 +50,5 @@ def check_periodic_time_message(self):
                 'from_chat_id': task.from_chat_id
             }
             time_now = datetime.datetime.now(tz=TIME_ZONE)
-            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(0, 5), microseconds=0)
+            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(MIN_SEND_MESSAGE_DELAY, MAX_SEND_MESSAGE_DELAY), microseconds=0)
             send_periodic_time_message.apply_async(args=[task_kwargs], eta=time_now + time_delay)

@@ -27,6 +27,10 @@ DB_URL = conn_url = f'postgresql+psycopg://{os.getenv("POSTGRES_USER")}:{os.gete
 
 PUBLISH_PER_REQUEST = int(os.getenv('PUBLISH_PER_REQUEST'))
 
+MIN_SEND_MESSAGE_DELAY = int(os.getenv('MIN_SEND_MESSAGE_DELAY'))
+
+MAX_SEND_MESSAGE_DELAY = int(os.getenv('MAX_SEND_MESSAGE_DELAY'))
+
 class MessageText:
     SEND_MESSAGE_ERROR = '''
 <b>Произошла ошибка при отправлении сообщение.</b>
