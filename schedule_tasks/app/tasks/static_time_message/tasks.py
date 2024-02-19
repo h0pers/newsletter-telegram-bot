@@ -1,4 +1,3 @@
-import logging
 import random
 import datetime
 import telebot
@@ -11,6 +10,7 @@ from app.database.main import SessionLocal
 from app.config import ADMINS_ID
 from app.config import MessageText
 from app.config import TIME_ZONE
+from app.config import MIN_SEND_MESSAGE_DELAY, MAX_SEND_MESSAGE_DELAY
 
 
 @app.task()
@@ -53,7 +53,7 @@ def check_static_time_message(self):
                 'from_chat_id': task[4]
             }
             time_now = datetime.datetime.now(tz=TIME_ZONE)
-            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(0, 5), microseconds=0)
+            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(MIN_SEND_MESSAGE_DELAY, MAX_SEND_MESSAGE_DELAY), microseconds=0)
             send_static_time_message.apply_async(args=[task_kwargs], eta=time_now + time_delay)
 
 

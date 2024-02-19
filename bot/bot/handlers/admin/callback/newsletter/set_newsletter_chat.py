@@ -1,5 +1,3 @@
-import logging
-
 from aiogram import Router, F
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
@@ -47,7 +45,7 @@ async def cancel_chat_id(query: CallbackQuery, state: FSMContext):
         reply_markup=new_newsletter_markup.get_markup())
 
     try:
-        data.pop('reply_chat_id')
+        data.pop('reply_chats_id')
 
     except KeyError:
         pass
