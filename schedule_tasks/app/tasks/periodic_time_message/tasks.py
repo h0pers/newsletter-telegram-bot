@@ -5,7 +5,7 @@ import datetime
 from sqlalchemy import select, text
 
 from app.celery import app, logger
-from app.config import BOT_TOKEN
+from app.config import BOT_TOKEN, MIN_SEND_MESSAGE_DELAY, MAX_SEND_MESSAGE_DELAY
 from app.database.main import SessionLocal
 from app.database.models.channels import Channels
 from app.config import ADMINS_ID
@@ -49,5 +49,6 @@ def check_periodic_time_message(self):
                 'from_chat_id': task.from_chat_id
             }
             time_now = datetime.datetime.now(tz=TIME_ZONE)
-            time_delay = datetime.timedelta(minutes=0, seconds=random.uniform(MIN_SEND_MESSAGE_DELAY, MIN_SEND_MESSAGE_DELAY), microseconds=0)
+            time_delay = datetime.timedelta(minutes=random.randrange(MIN_SEND_MESSAGE_DELAY, MIN_SEND_MESSAGE_DELAY),
+                                            seconds=0, microseconds=0)
             send_periodic_time_message.apply_async(args=[task_kwargs], eta=time_now + time_delay)
